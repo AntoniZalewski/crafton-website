@@ -9,8 +9,7 @@
     "lint": "eslint . --max-warnings=0",
     "preview": "vite preview",
     "format": "prettier -w .",
-    "stylelint": "stylelint src/**/*.{css,scss}",
-    "prepare": "husky install"
+    "stylelint": "stylelint src/**/*.{css,scss}"
   },
   "dependencies": {
     "react": "^19.1.1",
@@ -26,8 +25,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.3",
     "prettier": "^3.6.2",
     "sass": "^1.93.2",
     "stylelint": "^16.25.0",
@@ -36,11 +33,5 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.45.0",
     "vite": "^7.1.7"
-  },
-  "lint-staged": {
-    "*": "prettier -w --ignore-unknown",
-    "src/**/*": {
-      "{css,scss}": "stylelint --fix"
-    }
   }
 }
