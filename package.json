@@ -1,0 +1,8 @@
+{
+  "name": "crafton-website",
+  "private": true,
+  "packageManager": "pnpm@10.18.1",
+  "scripts": {
+    "prepare": "husky"
+  }
+}
