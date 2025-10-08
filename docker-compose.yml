@@ -1,0 +1,6 @@
+﻿services:
+  web:
+    build: .
+    image: crafton-frontend:latest
+    ports:
+      - "8080:80"
