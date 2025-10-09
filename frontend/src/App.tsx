@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import MobileMenu from "@/components/nav/MobileMenu"
+import Footer from "@/components/footer/Footer"
+import Contact from "@/sections/Contact/Contact"
+import GuideGrid from "@/features/guide/GuideGrid"
+import InvestmentsSection from "@/features/investments/InvestmentsSection"
+import styles from "./App.module.scss"
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <MobileMenu />
+      <main className={styles.main}>
+        <section id="hero" className={`${styles.section} ${styles.hero}`}>
+          <div className={styles.heroContent}>
+            <p className={styles.heroEyebrow}>RealEstate</p>
+            <h1 className={styles.heroTitle}>Twoj klucz do lepszej przyszlosci</h1>
+            <p className={styles.heroLead}>
+              W RealEstate nieruchomosci to cos wiecej niz tylko budynki - to miejsca, w ktorych
+              powstaja historie, rozwijaja sie biznesy i spelniaja marzenia.
+            </p>
+            <div className={styles.heroActions}>
+              <a className={styles.primaryCta} href="#investments">
+                Nasze inwestycje
+                <img
+                  className={styles.icon}
+                  src="/icons/mdi_arrow-up.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </a>
+              <a className={styles.secondaryCta} href="#contact">
+                Poznajmy sie
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <InvestmentsSection />
+
+        <GuideGrid />
+
+        <Contact />
+      </main>
+      <Footer />
     </>
   )
 }
-
-export default App

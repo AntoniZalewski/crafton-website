@@ -1,0 +1,17 @@
+.footer {
+  background: var(--color-white);
+  border-top: 1px solid var(--color-stroke);
+  padding: 32px var(--container-padding) 32px;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  gap: 12px;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  line-height: 1.5;
+  color: #5b7186;
+}

@@ -1,0 +1,195 @@
+.contactSection {
+  padding: var(--space-20) var(--container-padding);
+  background: var(--color-surface-subtle);
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.header {
+  margin-bottom: 0;
+}
+
+.formWrapper {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-stroke-subtle);
+  box-shadow: var(--shadow-soft);
+  padding: clamp(var(--space-6), 5vw, var(--space-10));
+}
+
+.feedback {
+  margin-bottom: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body-md);
+  font-weight: 500;
+}
+
+.feedbackSuccess {
+  background: rgba(49, 111, 175, 0.12);
+  color: var(--color-dark);
+  border: 1px solid rgba(49, 111, 175, 0.24);
+}
+
+.feedbackError {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.gridRow {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: var(--font-size-body-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-dark);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-stroke);
+  background: var(--color-surface-light);
+  font-size: var(--font-size-body-md);
+  color: var(--color-dark);
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.input:focus-visible,
+.textarea:focus-visible {
+  outline: none; // figma-match
+  border-color: #316faf; // figma-match
+  box-shadow: 0 0 0 3px rgba(49, 111, 175, 0.12); // figma-match
+}
+
+.inputError,
+.textareaError {
+  border-color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+.errorMessage {
+  margin: 0;
+  font-size: var(--font-size-body-sm);
+  color: var(--color-error);
+}
+
+.checkboxRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.checkboxRow input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border-radius: 6px;
+  border: 1px solid var(--color-stroke);
+}
+
+.checkboxRow input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.checkboxLabel {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.checkboxLabel a {
+  color: var(--color-primary);
+}
+
+.submit {
+  justify-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-6);
+  height: 52px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: var(--font-size-body-md);
+  box-shadow: var(--shadow-card);
+  transition: background 180ms ease;
+}
+
+.submit:hover {
+  background: var(--color-primary-hover);
+}
+
+.submit:active {
+  background: var(--color-primary-active);
+}
+
+.submit:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (min-width: 48rem) {
+  .gridRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 80rem) {
+  .inner {
+    max-width: 1280px; // figma-match
+    gap: 42px; // figma-match
+  }
+
+  .formWrapper {
+    background: #f6fbff; // figma-match
+    border: 1px solid #ffffff; // figma-match
+    border-radius: 14px; // figma-match
+    padding: 46px 32px; // figma-match
+  }
+
+  .input {
+    height: 50px; // figma-match
+  }
+
+  .textarea {
+    min-height: 152px; // figma-match
+  }
+
+  .checkboxLabel {
+    font-family: "Inter", var(--font-sans); // figma-match
+    font-size: 8px; // figma-match
+    line-height: 1.8; // figma-match
+    letter-spacing: -0.02em; // figma-match
+  }
+
+  .submit {
+    height: 56px; // figma-match
+    padding: 18px 32px; // figma-match
+  }
+}

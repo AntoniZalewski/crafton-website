@@ -7,7 +7,7 @@ const NAV_LINKS = [
   { label: "Nasze inwestycje", href: "#investments" },
   { label: "Poradnik", href: "#guide" },
   { label: "Wynajmij", href: "#rent" },
-]
+] as const
 
 const CTA_LINK = { label: "Kontakt", href: "#contact" }
 const DESKTOP_BREAKPOINT = 1024
@@ -165,34 +165,26 @@ export default function MobileMenu() {
             <nav className={styles.nav} aria-label="Glowna nawigacja">
               <ul className={styles.navList}>
                 {NAV_LINKS.map((item) => {
-                  const isHome = item.label === "Home"
                   const isAbout = item.label === "O nas"
+                  const isInvestments = item.label === "Nasze inwestycje"
+                  const hasDropdown = isAbout || isInvestments
 
                   return (
                     <li key={item.href}>
                       <a
-                        className={styles.navLink}
+                        className={`${styles.navLink} ${hasDropdown ? styles.withChevron : ""}`}
                         href={item.href}
-                        aria-current={isHome ? "page" : undefined}
+                        {...(hasDropdown
+                          ? {
+                              "data-has-dropdown": true,
+                              "aria-haspopup": "true" as const,
+                              "aria-expanded": false,
+                            }
+                          : {})}
                       >
                         {item.label}
-                        {isAbout ? (
-                          <svg
-                            className={styles.chevron}
-                            width="8"
-                            height="8"
-                            viewBox="0 0 8 8"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M2 3l2 2 2-2"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                        {hasDropdown ? (
+                          <span aria-hidden="true" className={styles.chevronIcon} />
                         ) : null}
                       </a>
                     </li>
@@ -204,17 +196,8 @@ export default function MobileMenu() {
 
           <div className={styles.colRight}>
             <a className={styles.navCta} href={CTA_LINK.href}>
-              {CTA_LINK.label}
-              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M7 17L17 7M10 7h7v7"
-                  fill="none"
-                  stroke="#fff"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <span>KONTAKT</span>
+              <span aria-hidden="true" className={styles.ctaIcon} />
             </a>
             <button
               ref={toggleRef}
