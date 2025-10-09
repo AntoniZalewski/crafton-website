@@ -1,0 +1,268 @@
+import { useCallback, useEffect, useRef, useState } from "react"
+import styles from "./MobileMenu.module.scss"
+
+const NAV_LINKS = [
+  { label: "Home", href: "#hero" },
+  { label: "O nas", href: "#about" },
+  { label: "Nasze inwestycje", href: "#investments" },
+  { label: "Poradnik", href: "#guide" },
+  { label: "Wynajmij", href: "#rent" },
+]
+
+const CTA_LINK = { label: "Kontakt", href: "#contact" }
+const DESKTOP_BREAKPOINT = 1024
+const FOCUSABLE_SELECTORS =
+  'a[href]:not([tabindex="-1"]), button:not([disabled]):not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+
+export default function MobileMenu() {
+  const [open, setOpen] = useState(false)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+  const drawerRef = useRef<HTMLDivElement>(null)
+  const wasOpenRef = useRef(false)
+
+  const closeMenu = useCallback(() => {
+    setOpen(false)
+  }, [])
+
+  const handleToggle = useCallback(() => {
+    setOpen((value) => !value)
+  }, [])
+
+  const handleLinkClick = useCallback(() => {
+    closeMenu()
+  }, [closeMenu])
+
+  useEffect(() => {
+    if (!open) {
+      return
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault()
+        closeMenu()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [open, closeMenu])
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return
+    }
+
+    const media = window.matchMedia(`(min-width: ${DESKTOP_BREAKPOINT}px)`)
+    const handleChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        closeMenu()
+      }
+    }
+
+    if (media.matches) {
+      closeMenu()
+    }
+
+    media.addEventListener("change", handleChange)
+    return () => media.removeEventListener("change", handleChange)
+  }, [closeMenu])
+
+  useEffect(() => {
+    if (!open) {
+      return
+    }
+
+    const drawer = drawerRef.current
+    const toggle = toggleRef.current
+    if (!drawer || !toggle) {
+      return
+    }
+
+    const focusable = Array.from(
+      drawer.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS),
+    )
+    const ordered = focusable.length > 0 ? [...focusable, toggle] : [toggle]
+    const first = ordered[0]
+
+    requestAnimationFrame(() => {
+      first?.focus()
+    })
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Tab" || ordered.length === 0) {
+        return
+      }
+
+      const current = document.activeElement as HTMLElement | null
+      const firstElement = ordered[0]
+      const lastElement = ordered[ordered.length - 1]
+
+      if (event.shiftKey) {
+        if (current === firstElement) {
+          event.preventDefault()
+          lastElement.focus()
+        }
+        return
+      }
+
+      if (current === lastElement) {
+        event.preventDefault()
+        firstElement.focus()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [open])
+
+  useEffect(() => {
+    if (!open) {
+      return
+    }
+
+    const body = document.body
+    const previousOverflow = body.style.overflow
+    body.style.overflow = "hidden"
+    body.dataset.menuOpen = "true"
+
+    return () => {
+      body.style.overflow = previousOverflow
+      body.removeAttribute("data-menu-open")
+    }
+  }, [open])
+
+  useEffect(() => {
+    if (wasOpenRef.current && !open) {
+      toggleRef.current?.focus()
+    }
+    wasOpenRef.current = open
+  }, [open])
+
+  const toggleClassName = open
+    ? `${styles.toggle} ${styles.toggleOpen}`
+    : styles.toggle
+
+  return (
+    <header className={styles.header}>
+      <div className={styles.inner}>
+        <div className={styles.columns}>
+          <div className={styles.colLeft}>
+            <a
+              className={styles.brand}
+              href="#hero"
+              aria-label="Crafton - przejdz do sekcji startowej"
+            >
+              <img
+                className={styles.logoImg}
+                src="/brand/crafton_logo.svg"
+                alt="Crafton"
+              />
+            </a>
+          </div>
+
+          <div className={styles.colCenter}>
+            <nav className={styles.nav} aria-label="Glowna nawigacja">
+              <ul className={styles.navList}>
+                {NAV_LINKS.map((item) => {
+                  const isHome = item.label === "Home"
+                  const isAbout = item.label === "O nas"
+
+                  return (
+                    <li key={item.href}>
+                      <a
+                        className={styles.navLink}
+                        href={item.href}
+                        aria-current={isHome ? "page" : undefined}
+                      >
+                        {item.label}
+                        {isAbout ? (
+                          <svg
+                            className={styles.chevron}
+                            width="8"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M2 3l2 2 2-2"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        ) : null}
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
+          </div>
+
+          <div className={styles.colRight}>
+            <a className={styles.navCta} href={CTA_LINK.href}>
+              {CTA_LINK.label}
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M7 17L17 7M10 7h7v7"
+                  fill="none"
+                  stroke="#fff"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+            <button
+              ref={toggleRef}
+              type="button"
+              className={toggleClassName}
+              aria-expanded={open}
+              aria-controls="primary-nav"
+              onClick={handleToggle}
+            >
+              <span className={styles.srOnly}>
+                {open ? "Zamknij menu" : "Otworz menu"}
+              </span>
+              <span className={styles.toggleIcon} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.mobileLayer} data-open={open}>
+        <button
+          type="button"
+          className={styles.overlay}
+          aria-hidden="true"
+          tabIndex={-1}
+          onClick={closeMenu}
+        />
+
+        <div
+          ref={drawerRef}
+          className={styles.drawer}
+          aria-hidden={!open}
+          role="presentation"
+        >
+          <ul className={styles.mobileNav} id="primary-nav">
+            {NAV_LINKS.map((item) => (
+              <li key={`mobile-${item.href}`}>
+                <a href={item.href} onClick={handleLinkClick}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <a className={styles.mobileCta} href={CTA_LINK.href} onClick={handleLinkClick}>
+            {CTA_LINK.label}
+          </a>
+        </div>
+      </div>
+    </header>
+  )
+}

@@ -1,0 +1,344 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-stroke-light);
+  box-shadow: 0 1px 0 rgba(40, 60, 80, 0.04);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  height: 82px;
+  display: flex;
+  align-items: center;
+}
+
+.columns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--space-6);
+}
+
+.colLeft,
+.colRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.colRight {
+  justify-content: flex-end;
+}
+
+.colCenter {
+  display: none;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-dark);
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.logoImg {
+  display: block;
+  height: 20px;
+  width: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navList {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 32px;
+}
+
+.navList li {
+  display: inline-flex;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--color-dark);
+  transition: color 160ms ease;
+}
+
+.navLink:hover,
+.navLink[aria-current="page"] {
+  color: var(--color-primary);
+}
+
+.navLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  color: var(--color-primary);
+}
+
+.chevron {
+  margin-left: 8px;
+  transform: translateY(1px);
+  transition: transform 160ms ease;
+}
+
+.navLink:hover .chevron,
+.navLink:focus-visible .chevron {
+  transform: translateY(2px);
+}
+
+.navCta {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 24px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  background: var(--color-primary);
+  color: var(--color-white);
+  transition: background 160ms ease;
+  box-shadow: var(--shadow-soft);
+  gap: 8px;
+}
+
+.navCta svg {
+  display: block;
+}
+
+.navCta:hover {
+  background: var(--color-primary-hover);
+}
+
+.navCta:active {
+  background: var(--color-primary-active);
+}
+
+.navCta:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--color-stroke);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.toggle:hover {
+  border-color: var(--color-primary);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.toggleIcon,
+.toggleIcon::before,
+.toggleIcon::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--color-text-strong);
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.toggleIcon {
+  transform: translateY(0);
+}
+
+.toggleIcon::before {
+  transform: translateY(-6px);
+}
+
+.toggleIcon::after {
+  transform: translateY(6px);
+}
+
+.toggleOpen .toggleIcon {
+  background: transparent;
+}
+
+.toggleOpen .toggleIcon::before {
+  transform: rotate(45deg);
+}
+
+.toggleOpen .toggleIcon::after {
+  transform: rotate(-45deg);
+}
+
+.mobileLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-areas: "layer";
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.mobileLayer[data-open="true"] {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.overlay {
+  grid-area: layer;
+  margin: 0;
+  border: 0;
+  background: rgba(23, 33, 61, 0.48);
+}
+
+.drawer {
+  grid-area: layer;
+  align-self: start;
+  margin: calc(var(--space-3) + 56px) auto var(--space-3);
+  width: min(480px, 92vw);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-12px);
+  transition: transform 220ms ease;
+}
+
+.mobileLayer[data-open="true"] .drawer {
+  transform: translateY(0);
+}
+
+.mobileNav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mobileNav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-size-body-lg);
+  font-weight: 500;
+  color: var(--color-text-strong);
+}
+
+.mobileNav a::after {
+  content: "\203A";
+  font-size: 1rem;
+  color: var(--color-stroke-on-dark);
+  opacity: 0.56;
+}
+
+.mobileNav a:hover {
+  color: var(--color-primary);
+}
+
+.mobileCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-6);
+  height: 52px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: var(--font-size-body-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.mobileCta:hover {
+  background: var(--color-primary-hover);
+}
+
+.mobileCta:active {
+  background: var(--color-primary-active);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 64rem) {
+  .columns {
+    display: grid;
+    grid-template-columns: 296px 1fr 296px;
+    align-items: center;
+    gap: var(--space-6);
+    width: 100%;
+  }
+
+  .colCenter {
+    display: flex;
+    justify-content: center;
+  }
+
+  .navList {
+    display: inline-flex;
+  }
+
+  .navCta {
+    display: inline-flex;
+  }
+
+  .toggle {
+    display: none;
+  }
+
+  .mobileLayer {
+    display: none;
+  }
+}
